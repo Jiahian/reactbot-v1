@@ -4,8 +4,8 @@
   "description": "React bot on webpage",
   "main": "index.js",
   "engines": {
-    "node": "10.15.3",
-    "npm": "6.9.0"
+    "node": "13.6.0",
+    "npm": "6.13.4"
   },
   "scripts": {
     "start": "node index.js",
