@@ -11,8 +11,8 @@ const credentials = {
 };
 
 const sessionClient = new dialogflow.SessionsClient({
-  projectID: projectID,
-  credentials: credentials,
+  projectID,
+  credentials,
 });
 
 //Create a new session
