@@ -17,11 +17,11 @@ const sessionClient = new dialogflow.SessionsClient({
   credentials,
 });
 
-//Create a new session
-const sessionPath = sessionClient.sessionPath(projectID, sessionID);
+//const sessionPath = sessionClient.sessionPath(projectID, sessionID);
 
 module.exports = {
-  textQuery: async function (text, parameters = {}) {
+  textQuery: async function (text, userID, parameters = {}) {
+    let sessionPath = sessionClient.sessionPath(projectID, sessionID + userID); //Create a new session
     let self = module.exports;
     const request = {
       session: sessionPath,
@@ -43,7 +43,8 @@ module.exports = {
     return responses;
   },
 
-  eventQuery: async function (event, parameters = {}) {
+  eventQuery: async function (event, userID, parameters = {}) {
+    let sessionPath = sessionClient.sessionPath(projectID, sessionID + userID);
     let self = module.exports;
     const request = {
       session: sessionPath,
