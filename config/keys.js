@@ -7,6 +7,9 @@ if (process.env.NODE_ENV === "production") {
     googlePrivateKey: JSON.parse(process.env.GOOGLE_PRIVATE_KEY),
   };
   console.log("production environment");
+  console.log(this.googleClientEmail);
+  console.log(this.googleProjectID);
+  console.log(this.googlePrivateKey);
 } else {
   module.exports = require("./dev");
   console.log("dev environment");
