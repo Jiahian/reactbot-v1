@@ -2,6 +2,7 @@
 const dialogflow = require("dialogflow");
 const structjson = require("./structjson.js");
 const config = require("../config/keys");
+const mongoose = require("mongoose");
 
 const projectID = config.googleProjectID;
 const sessionID = config.dialogFlowSessionID;
@@ -18,6 +19,7 @@ const sessionClient = new dialogflow.SessionsClient({
 });
 
 //const sessionPath = sessionClient.sessionPath(projectID, sessionID);
+const Registration = mongoose.model("registration");
 
 module.exports = {
   textQuery: async function (text, userID, parameters = {}) {
@@ -63,6 +65,35 @@ module.exports = {
   },
 
   handleAction: function (responses) {
+    let self = module.exports;
+    let queryResult = responses[0].queryResult;
+
+    console.log(queryResult.action);
+    console.log(queryResult.allRequiredParamsPresent);
+
+    switch (queryResult.action) {
+      case "recommendcourses-yes":
+        if (queryResult.allRequiredParamsPresent) {
+          self.saveRegistration(queryResult.parameters.fields);
+          console.log("saving registration");
+        }
+        break;
+    }
     return responses;
+  },
+
+  saveRegistration: async function (fields) {
+    const registration = new Registration({
+      name: fields.name.stringValue,
+      phone: fields.phone.stringValue,
+      email: fields.email.stringValue,
+      dateSent: Date.now(),
+    });
+    try {
+      let reg = await registration.save();
+      console.log(reg);
+    } catch (err) {
+      console.log(err);
+    }
   },
 };

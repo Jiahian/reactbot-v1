@@ -1,0 +1,124 @@
+/****** General ******/
+
+/***** SideDrawer SideBar ****/
+.sidebar {
+  position: absolute;
+  right: -200px;
+  height: 100%;
+  width: 200px;
+  transition: right 0.3s ease-in-out;
+  background-color: lightblue;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  left: -20px;
+  height: 24px;
+  width: 24px;
+  z-index: 1;
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  transition: right 0.3s ease-in-out;
+  background-color: transparent;
+}
+
+.sidebar.open {
+  right: 0;
+}
+
+.content.open {
+  right: 200px;
+}
+
+/****** Shop  ******/
+.card {
+  border-radius: 1rem !important;
+}
+.card:hover {
+  cursor: pointer;
+}
+.card-image img {
+  border-radius: 1rem 1rem 0 0 !important;
+}
+.card-content {
+  padding: 1rem !important;
+  color: black;
+}
+.card-content h4 {
+  font-weight: 500 !important;
+  margin-top: 0 !important;
+  border-radius: 0 0 1rem 1rem !important;
+}
+.card-price {
+  font-weight: medium;
+}
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/****** Product ******/
+
+.product-img-wrapper {
+  margin: -15px -15px 0;
+  height: 0;
+  padding-bottom: 100%;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #ccc;
+}
+
+.product-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.product-price {
+  margin-bottom: 0;
+}
+
+/****** Graph ******/
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 60px;
+  height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.svg-container {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  vertical-align: top;
+  overflow: hidden;
+}
+.svg-content {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+svg g:hover {
+  cursor: pointer;
+}
+
+svg g:not(hover) {
+  cursor: initial;
+}
