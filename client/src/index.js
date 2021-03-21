@@ -1,5 +1,10 @@
-import "materialize-css/dist/css/materialize.min.css";
-import "materialize-css/dist/js/materialize.min.js";
+//import "materialize-css/dist/css/materialize.min.css";
+//import "materialize-css/dist/js/materialize.min.js";
+// import "bootstrap";
+import "@fortawesome/fontawesome-free/css/all.css";
+import "bootstrap/dist/css/bootstrap.css";
+import $ from "jquery";
+import "bootstrap/dist/js/bootstrap.bundle";
 import "./index.css";
 import React from "react";
 import ReactDOM from "react-dom";

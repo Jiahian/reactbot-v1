@@ -1,6 +1,38 @@
 /****** General ******/
+html,
+body,
+a {
+  color: black;
+}
+a:hover {
+  color: black;
+  cursor: pointer;
+  text-decoration: none;
+}
+/****** Explore ******/
+#accordion .card {
+  border-radius: 0 !important;
+  border: none;
+}
 
-/***** SideDrawer SideBar ****/
+#accordion .card-header {
+  padding: 0;
+}
+#accordion .card-header .btn {
+  text-decoration: none;
+  color: #004085;
+}
+
+#accordion .card-body {
+  cursor: default;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 160px;
+}
+
+/***** SideDrawer SideBar -no more*
 .sidebar {
   position: absolute;
   right: -200px;
@@ -34,7 +66,7 @@
 
 .content.open {
   right: 200px;
-}
+}****/
 
 /****** Shop  ******/
 .card {
@@ -43,14 +75,14 @@
 .card:hover {
   cursor: pointer;
 }
-.card-image img {
+.card-img-top {
   border-radius: 1rem 1rem 0 0 !important;
 }
-.card-content {
+.card-body {
   padding: 1rem !important;
   color: black;
 }
-.card-content h4 {
+.card-body h4 {
   font-weight: 500 !important;
   margin-top: 0 !important;
   border-radius: 0 0 1rem 1rem !important;
@@ -86,7 +118,16 @@
   margin-bottom: 0;
 }
 
-/****** Graph ******/
+/****** Admin ******/
+
+.industry-track .list-group-item {
+  padding: 0.75rem 1rem;
+}
+.industry-track .list-group-item:hover {
+  cursor: pointer;
+}
+
+/****** Graph ****** i think no more for this too***/
 div.tooltip {
   position: absolute;
   text-align: center;

@@ -67,7 +67,7 @@ var options = {
   // },
   interaction: {
     hover: true,
-    dragView: false,
+    //dragView: false,
   },
 };
 
@@ -98,6 +98,7 @@ class VisNetwork extends Component {
     return (
       <Fragment>
         <Graph
+          //ref={this.myRef}
           graph={this.props.graphProp}
           options={this.state.options}
           events={this.props.onEvent}

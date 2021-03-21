@@ -1,4 +1,4 @@
-export const products = {
+export const courses = {
   data: [
     {
       _id: "5b21ca3eeb7f6fbccd471100",
@@ -8,8 +8,14 @@ export const products = {
         "This MiniMasters will benefit individuals through CET to upgrade their technical knowledge and skills in the area of Infocom technologies, which can be used in the ICT industry to address technological challenges for Smart Cities, Smart Nation, Future Communications and Internet of Things (IOT). The objective of this course is to provide students with a good understanding of the fundamental principles of spread-spectrum and CDMA digital communication systems which is the communication technique for modern wireless communications such as 3G and above.",
       category: "Information and Telecommunication Engineering",
       tag: [
-        { _id: 123, label: "Software Eng" },
-        { _id: 124, label: "Software Eng2" },
+        {
+          _id: "5b21ca3eeb7f6fbccd471815",
+          label: "Data Analyst/Associate Data Engineer",
+        },
+        {
+          _id: "5b21ca3eeb7f6fbccd471816",
+          label: "Business Intelligence Manager",
+        },
       ],
       price: "SGD 1605.00",
     },
@@ -21,8 +27,14 @@ export const products = {
         "This MiniMasters will benefit individuals through CET to upgrade their technical knowledge and skills in the area of Infocom technologies, which can be used in the ICT industry to address technological challenges for Smart Cities, Smart Nation, Future Communications and Internet of Things (IOT). The objective of this course is to familiarize the participants with understanding of the fundamental knowledge of traffic engineering issues in computer networks including queuing system and operations, flow control, admission control and congestion control techniques. The participants will also learn to use queuing models to analyze congestion control policy.",
       category: "Information and Telecommunication Engineering",
       tag: [
-        { _id: 123, label: "Software Eng" },
-        { _id: 124, label: "Software Eng2" },
+        {
+          _id: "5b21ca3eeb7f6fbccd471817",
+          label: "Business Intelligence Director",
+        },
+        {
+          _id: "5b21ca3eeb7f6fbccd471817",
+          label: "Business Intelligence Director",
+        },
       ],
       price: "SGD 1605.00",
     },

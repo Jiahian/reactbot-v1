@@ -131,17 +131,14 @@ class Chatbot extends Component {
     ) {
       return (
         <div key={i}>
-          <div className="card-panel grey lighten-5 z-depth-1">
+          <div className="alert alert-primary" style={{ zIndex: 1 }}>
             <div style={{ overflow: "hidden" }}>
-              <div className="col s2">
-                <a
-                  href="/"
-                  className="btn-floating btn-large waves-effect waves-light red"
-                >
+              <div className="">
+                <a href="/" className="badge rounded-pill bg-primary">
                   {message.speaks}
                 </a>
               </div>
-              <div style={{ overflow: "auto", overflowY: "scroll" }}>
+              <div style={{ overflowX: "auto", overflowY: "scroll" }}>
                 <div
                   style={{
                     height: 300,
@@ -204,32 +201,31 @@ class Chatbot extends Component {
       return (
         <div
           style={{
-            height: 400,
-            width: 400,
+            height: "100vh",
+            width: "40vw",
             position: "fixed",
             bottom: 0,
             right: 0,
             border: "1px solid light-grey",
-            backgroundColor: "white",
+            backgroundColor: "rgba(255,255,255,0.5)",
           }}
         >
-          <nav>
-            <div className="nav-wrapper">
-              <a className="brand-logo">Chatbot</a>
-              <ul id="nav-mobile" className="right hide-on-med-and-down">
-                <li>
-                  <a href="/" onClick={this.hide}>
-                    Close
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </nav>
+          <div
+            className="bg-secondary p-2 d-flex flex-nowrap justify-content-between"
+            onClick={this.hide}
+          >
+            <i className="fas fa-robot text-white"></i>
+            <i
+              class="fas fa-times text-white"
+              style={{ cursor: "pointer" }}
+            ></i>
+          </div>
+
           <div
             id="chatbot"
-            style={{ height: 338, width: "100%", overflow: "auto" }}
+            className=""
+            style={{ height: "90vh", width: "100%", overflow: "auto" }}
           >
-            <h2>Chatbot</h2>
             {this.renderMessages(this.state.messages)}
             <div
               ref={(el) => {
@@ -237,14 +233,9 @@ class Chatbot extends Component {
               }}
               style={{ float: "left", clear: "both" }}
             ></div>
-            <div className="col s12">
+            <div className="col-12">
               <input
-                style={{
-                  margin: 0,
-                  paddingLeft: "1%",
-                  paddingRight: "1%",
-                  width: "98%",
-                }}
+                className="form-control my-2"
                 placeholder="Type a message"
                 type="text"
                 ref={(input) => {
@@ -260,27 +251,28 @@ class Chatbot extends Component {
       return (
         <div
           style={{
-            minHeight: 40,
+            minHeight: 64,
             maxHeight: 500,
-            width: 400,
+            width: 150,
             position: "fixed",
-            bottom: 0,
-            right: 0,
+            bottom: 10,
+            right: 10,
             border: "1px solid light-grey",
           }}
         >
-          <nav>
-            <div className="nav-wrapper">
-              <a className="brand-logo">Chatbot</a>
-              <ul id="nav-mobile" className="right hide-on-med-and-down">
-                <li>
-                  <a href="/" onClick={this.show}>
-                    Show
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </nav>
+          <div
+            className="bg-secondary p-2 pt-3 d-flex flex-wrap justify-content-center text-white"
+            style={{ borderRadius: "8px", cursor: "pointer" }}
+            onClick={this.show}
+          >
+            <i
+              className="fas fa-robot text-white"
+              style={{ fontSize: "2rem" }}
+            ></i>
+
+            <p className="m-0">Ask me anything!</p>
+          </div>
+
           <div
             ref={(el) => {
               this.messagesEnd = el;

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
 import ItemList from "./ItemList";
-import { products } from "./../shop/products";
+//import { products } from "./../shop/products";
+import { courses } from "./../../data/courses";
 
 class Shop extends Component {
   // constructor(props) {
@@ -12,16 +13,16 @@ class Shop extends Component {
   //   };
   // }
   state = {
-    products: products.data,
+    courses: courses.data,
   };
 
   render() {
     return (
-      <div className="container">
+      <div className="container my-4">
         <h2>Courses</h2>
         <div className="row">
-          {this.state.products.map((product) => (
-            <ItemList key={product.name} product={product}></ItemList>
+          {this.state.courses.map((course) => (
+            <ItemList key={course.name} course={course}></ItemList>
           ))}
         </div>
       </div>
