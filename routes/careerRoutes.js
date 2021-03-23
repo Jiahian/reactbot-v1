@@ -3,8 +3,19 @@ const mongoose = require("mongoose");
 let Track = require("../models/Track");
 let Career = require("../models/Career");
 
-//GET all career
+//GET  career by careerID
 router.route("/:id").get((req, res) => {
+  const careerID = req.params.id;
+  Career.findById(careerID)
+    .then((docCareer) => {
+      res.json(docCareer);
+      //console.log(docTrack.career);
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+//GET all career by track ID
+router.route("/all/:id").get((req, res) => {
   const trackID = req.params.id;
   Track.findById(trackID)
     .then(async (docTrack) => {

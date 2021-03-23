@@ -1,31 +1,64 @@
 import React, { Component } from "react";
-import { ICTDataAI } from "../../data/ICTDataAI";
+// import { ICTDataAI } from "../../data/ICTDataAI";
+import IndustryTrackService from "../../services/industryTrackService";
+import PathwayService from "../../services/pathwayService";
+import CareerService from "../../services/careerService";
 import SideBar from "./SideBar";
 import Dropdown from "./../common/Dropdown";
-import { getGroups, getIndustry } from "../../data/fakeGroupService";
+// import { getGroups, getIndustry } from "../../data/fakeGroupService";
 import { Link } from "react-router-dom";
 import ExploreGraph from "./ExploreGraph";
 
 class Explore extends Component {
   state = {
-    id: this.props.match.params.id || "5b21ca3eeb7f6fbccd471818",
-    graph: ICTDataAI,
-    industrygroup: [],
-    groups: [],
+    trackID: "",
+    industry: [],
+    track: [],
+    career: [],
+    selectedIndustryID: "",
+    selectedTrackID: "",
+    //graph: ICTDataAI,
     //subgroups: [], //in real world app, shd be initialize at the componentDidMount lifecycle hook
-    nodeGet: "",
-    //selectedGroup: null,
-    //selectedSubgroup: null,
   };
 
   componentDidMount() {
-    //this.setState({ graph: getGraph(), groups: getGroups() });
-    this.setState({
-      industrygroup: getIndustry(),
-      //groups: getGroups(this.state.id),
-      //subgroups: getSubgroup(),
-    });
+    this.retrieveIndustry();
+    this.retrieveTrack();
   }
+
+  //GET industry
+  retrieveIndustry = () => {
+    IndustryTrackService.getAll()
+      .then((res) => {
+        this.setState({ industry: res.data });
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  //GET
+  retrieveTrack = () => {
+    PathwayService.getAll()
+      .then((res) => {
+        this.setState({ track: res.data });
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  retrieveCareer = (careerID) => {
+    CareerService.getCareer(careerID)
+      .then((res) => {
+        this.setState({ career: res.data });
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   handleEvents = {
     // select: function (event) {
@@ -34,92 +67,132 @@ class Explore extends Component {
     // },
     selectNode: (event) => {
       let { nodes } = event;
-      const nodeSelected = this.state.graph.nodes.filter(
-        (n) => n.id === nodes[0]
-      );
-      // console.log(nodeSelected[0]);
-      this.setState({ nodeGet: nodeSelected[0] });
+      console.log(nodes[0]);
+      this.retrieveCareer(nodes[0]);
     },
   };
 
-  handleGroupSelect = (group) => {
-    console.log(group);
-    // this.setState({ graph: ICTDataAI });
-    // console.log(ICTDataAI);
-    // console.log(this.state.graph);
-    // const { graph, selectedGroup } = this.state;
-    const graphData = { ...ICTDataAI };
-    console.log(graphData);
-
-    const filteredNodes = graphData.nodes.filter(
-      (m) => m.group._id === group._id
-    );
-
-    console.log(filteredNodes);
-
-    const filtered = { nodes: [...filteredNodes], edges: [...graphData.edges] };
-    console.log(filtered);
-    this.setState({ graph: filtered }); //why giving me errrors?
-  };
-
-  handleSubgroupSelect = (group) => {
-    console.log(group);
-    this.setState({ selectedSubgroup: group });
-    // const { graph, selectedGroup } = this.state;
-    const graphData = { ...this.state.graph };
-
-    const filteredNodes = graphData.nodes.map((n) =>
-      n.subgroup.filter((s) => s._id === group._id)
-    );
-
-    console.log(filteredNodes);
-    const filtered = { nodes: [...filteredNodes], edges: [...graphData.edges] };
-    this.setState({ graph: filtered }); //why giving me errrors?
-  };
-
-  handleChange = (e) => {
-    console.log(e.currentTarget.value);
-  };
-
   render() {
-    //const { id } = this.props.match.params;
+    const {
+      industry,
+      track,
+      career,
+      selectedIndustryID,
+      selectedTrackID,
+    } = this.state;
 
-    const { id } = this.state;
-    //console.log(id);
-
-    const filteredNodes = this.state.graph.nodes.filter(
-      (n) => n.group._id === id
+    const filteredIndustry = industry.filter(
+      (i) => i._id === selectedIndustryID
     );
+
+    console.log(this.state);
+
+    const filteredTrack = track.filter((t) => t._id === selectedTrackID);
+    //console.log("filtered tracks", filteredTrack);
+
+    const filteredNode = filteredTrack.map((t) => t.nodes);
+    //console.log("nodes: ", filteredNode);
+
+    const filteredEdge = filteredTrack.map((t) => t.edges);
+    //console.log("edges: ", filteredEdge);
+
+    // const filteredNodes = this.state.graph.nodes.filter(
+    //   (n) => n.group._id === id
+    // );
 
     //console.log(filteredNodes);
-    const filtered = {
-      nodes: [...filteredNodes],
-      edges: [...this.state.graph.edges],
-    };
+
+    // const filtered = {
+    //   nodes: [...filteredNodes],
+    //   edges: [...this.state.graph.edges],
+    // };
 
     return (
       <React.Fragment>
         <div className="row mx-0">
           <div className="col-lg-9 col-md-8 col-sm-12">
-            <div className="row mx-0 my-2">
-              <Dropdown
-                buttonLabel="Industry > Tracks"
-                items={this.state.industrygroup}
-                //selectedItem={this.state.selectedGroup}
-                //onItemSelect={this.handleGroupSelect}
-                //onItemChange={this.handleChange}
-              />
-            </div>
-            <ExploreGraph
-              //graph={this.state.graph}
-              graph={filtered}
-              onEvent={this.handleEvents}
-            ></ExploreGraph>
+            <form className="row g-3 my-3">
+              <div className="col-5">
+                <select
+                  className="form-control"
+                  id="formGrouSelect1"
+                  required
+                  value={selectedIndustryID}
+                  onChange={(e) =>
+                    this.setState({ selectedIndustryID: e.target.value })
+                  }
+                >
+                  <option defaultValue>Industry...</option>
+                  {industry &&
+                    industry.map((d) => (
+                      <option value={d._id} key={d._id}>
+                        {d.name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <div className="align-self-center text-center">
+                <i
+                  className="fas fa-angle-right"
+                  style={{ fontSize: "1.5rem" }}
+                ></i>
+              </div>
+              <div className="col-5">
+                <select
+                  className="form-control"
+                  id="formGrouSelect2"
+                  required
+                  value={selectedTrackID}
+                  onChange={(e) => {
+                    this.setState({ selectedTrackID: e.target.value });
+                  }}
+                >
+                  <option>Track...</option>
+                  {filteredIndustry &&
+                    filteredIndustry.map((d) =>
+                      d.tracks.map((t) => (
+                        <option value={t._id} key={t._id}>
+                          {t.name}
+                        </option>
+                      ))
+                    )}
+                </select>
+              </div>
+            </form>
+            {selectedIndustryID && selectedTrackID ? (
+              filteredNode[0].length > 1 && filteredEdge[0].length > 1 ? (
+                <ExploreGraph
+                  graph={{ nodes: filteredNode[0], edges: filteredEdge[0] }}
+                  onEvent={this.handleEvents}
+                />
+              ) : (
+                ""
+              )
+            ) : (
+              <div
+                className="p-3 pt-4"
+                style={{
+                  height: "80vh",
+                  width: "100%",
+                  border: "1px black solid",
+                  margin: "0 10px 10px 0",
+                  textAlign: "center",
+                }}
+              >
+                <p>Welcome to Careerpedia! 💡</p>
+                <p>Your career search begins today!</p>
+                <br></br>
+                <p className="font-italic font-weight-light">
+                  Start by selecting an Industry and Track...
+                </p>
+              </div>
+            )}
           </div>
+
           <SideBar
-            //isOpen={this.state.sidebarOpen}
-            node={this.state.nodeGet}
-            //toggleSidebar={this.handleViewSidebar}
+            filteredCareer={career}
+            industryID={selectedIndustryID}
+            trackID={selectedTrackID}
           />
         </div>
       </React.Fragment>
@@ -128,21 +201,8 @@ class Explore extends Component {
 }
 
 export default Explore;
-//<div className={contentClass} isOpen={this.state.sidebarOpen}>
-
-// <Dropdown
-//   buttonLabel="Tracks"
-//   industryID={this.state.id}
-//   items={this.state.groups}
-//   //selectedItem={this.state.selectedGroup}
-//   //onItemSelect={this.handleGroupSelect}
-//   //onItemChange={this.handleChange}
-// />;
-
-// <Dropdown
-//   buttonLabel="Sub-Tracks"
-//   items={this.state.subgroups}
-//   selectedItem={this.state.selectedSubgroup}
-//   // onItemSelect={this.handleSubgroupSelect}
-//   // onItemChange={this.handleChange}
-// />;
+//  <Dropdown buttonLabel="Industry > Tracks" items={industry} />;
+// <ExploreGraph
+//   graph={{ nodes: filteredNode[0], edges: filteredEdge[0] }}
+//   onEvent={this.handleEvents}
+// ></ExploreGraph>;

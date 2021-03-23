@@ -9,41 +9,32 @@ class SideBar extends Component {
   state = {
     allRelated: related.data,
   };
+
   render() {
     //var sidebarClass = this.props.isOpen ? "sidebar open" : "sidebar";
-
-    const { node } = this.props;
-    console.log(node._id);
+    const { filteredCareer, industryID, trackID } = this.props;
+    console.log(filteredCareer);
     let relatedCourse = [];
-    this.state.allRelated.forEach((c) => {
-      c.tag.forEach((p) => {
-        //console.log(p._id);
-        if (p._id === node._id) relatedCourse.push(c);
-      });
-    });
-    console.log(relatedCourse);
+    // this.state.allRelated.forEach((c) => {
+    //   c.tag.forEach((p) => {
+    //     //console.log(p._id);
+    //     if (p._id === node._id) relatedCourse.push(c);
+    //   });
+    // });
+    //console.log(relatedCourse);
 
     return (
       <div className="col-lg-3 col-md-4 col-sm-12 alert alert-primary px-0 py-3">
-        {node == "" ? (
+        {filteredCareer ? (
           <div className="px-3">
-            <p>Welcome to Careerpedia! 💡</p>
-            <p>Your career search begins today!</p>
-            <p>
-              You can zoom and drag the graph on the left to see all the career
-              pathways.
-            </p>
-            <p>
-              You can filter the careers by your desired industry and career
-              tracks!
-            </p>
+            <p>Zoom and drag the graph to see all the career pathways.</p>
             <p>Click on any career node to view more info!</p>
           </div>
         ) : (
           <div>
-            <h5 className="text-dark px-3">{node.label}</h5>
+            <h5 className="text-dark px-3">{filteredCareer.label}</h5>
             <div id="accordion">
-              <div className="card">
+              {/**<div className="card">
                 <div className="card-header" id="headingZero">
                   <h5 className="mb-0">
                     <button
@@ -66,13 +57,13 @@ class SideBar extends Component {
                 >
                   <div className="card-body">
                     <ul style={{ paddingInlineStart: "28px" }}>
-                      {node.subgroup.map((n) => (
+                      {filteredCareer.subgroup.map((n) => (
                         <li>{n.name}</li>
                       ))}
                     </ul>
                   </div>
                 </div>
-              </div>
+                      </div>**/}
               <div className="card">
                 <div className="card-header" id="headingOne">
                   <h5 className="mb-0">
@@ -94,9 +85,9 @@ class SideBar extends Component {
                   aria-labelledby="headingOne"
                   data-parent="#accordion"
                 >
-                  <div className="card-body">{node.JobDescription}</div>
+                  <div className="card-body">{filteredCareer.desc}</div>
                   <span className="px-3 pb-2" style={{ float: "right" }}>
-                    <Link to={`/explore/detail/${node._id}`}>
+                    <Link to={`/explore/detail/${filteredCareer._id}`}>
                       See more
                       <i
                         className="fas fa-chevron-right mx-2"
@@ -126,9 +117,9 @@ class SideBar extends Component {
                   aria-labelledby="headingTwo"
                   data-parent="#accordion"
                 >
-                  <div className="card-body">{node.JobDescription}</div>
+                  <div className="card-body">{filteredCareer.cwf}</div>
                   <span className="px-3 pb-2" style={{ float: "right" }}>
-                    <Link to={`/explore/detail/${node._id}`}>
+                    <Link to={`/explore/detail/${filteredCareer._id}`}>
                       See more
                       <i
                         className="fas fa-chevron-right mx-2"
@@ -158,9 +149,9 @@ class SideBar extends Component {
                   aria-labelledby="headingThree"
                   data-parent="#accordion"
                 >
-                  <div className="card-body">{node.JobDescription}</div>
+                  <div className="card-body">{filteredCareer.tSkill}</div>
                   <span className="px-3 pb-2" style={{ float: "right" }}>
-                    <Link to={`/explore/detail/${node._id}`}>
+                    <Link to={`/explore/detail/${filteredCareer._id}`}>
                       See more
                       <i
                         className="fas fa-chevron-right mx-2"
@@ -190,9 +181,9 @@ class SideBar extends Component {
                   aria-labelledby="headingFour"
                   data-parent="#accordion"
                 >
-                  <div className="card-body">{node.JobDescription}</div>
+                  <div className="card-body">{filteredCareer.gSkill}</div>
                   <span className="px-3 pb-2" style={{ float: "right" }}>
-                    <Link to={`/explore/detail/${node._id}`}>
+                    <Link to={`/explore/detail/${filteredCareer._id}`}>
                       See more
                       <i
                         className="fas fa-chevron-right mx-2"

@@ -1,35 +1,51 @@
 import React, { Component } from "react";
-import { ICTDataAI } from "./../../data/ICTDataAI";
+import CareerService from "../../services/careerService";
 
 class ExploreDetail extends Component {
   state = {
-    node: ICTDataAI.nodes,
+    careerID: this.props.match.params.id,
+    career: [],
+  };
+  componentDidMount() {
+    this.retrieveCareer(this.state.careerID);
+  }
+
+  retrieveCareer = (careerID) => {
+    CareerService.getCareer(careerID)
+      .then((res) => {
+        this.setState({ career: res.data });
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   render() {
-    const { id } = this.props.match.params;
-    //const { products } = this.state;
-    //const filteredProduct = products.filter((p) => p.id === id).map(p=>p);
-    console.log(id);
+    const { career } = this.state;
+
     return (
       <div className="container my-4">
-        {this.state.node
-          .filter((p) => p._id == id)
-          .map((p) => (
-            <div>
-              <a className="text-secondary" href="#">
-                {p.group.name}
-                <i
-                  className="fas fa-chevron-right mx-2"
-                  style={{ fontSize: "12px" }}
-                ></i>
-                {p.subgroup[0].name}
-              </a>
-              <h1 className="my-4">{p.label}</h1>
-              <h5>Job Description: </h5>
-              <p className="text-justify">{p.JobDescription}</p>
+        <div>
+          <h1 className="my-4">{career.label}</h1>
+          <hr />
+          <h5>Job Description: </h5>
+          <p className="text-justify">{career.desc}</p>
+          <h5>Critical Work Function: </h5>
+
+          <p className="text-justify text-">{career.cwf}</p>
+
+          <div className="row">
+            <div className="col-sm-6">
+              <h5>Technical Skills & Competencies: </h5>
+              <p className="text-justify">{career.tSkill}</p>
             </div>
-          ))}
+            <div className="col-sm-6">
+              <h5>Generic Skills & Competencies: </h5>
+              <p className="text-justify">{career.gSkill}</p>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
