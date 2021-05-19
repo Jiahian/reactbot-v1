@@ -12,7 +12,10 @@ const Message = (props) => {
               </a>
             </div>
           )}
-          <div className="flex-fill m-0 p-1 alert alert-primary">
+          <div
+            className="flex-fill m-0 p-1 alert alert-primary"
+            style={{ whiteSpace: "pre-line" }}
+          >
             <span>{props.text}</span>
           </div>
           {props.speaks === "user" && (

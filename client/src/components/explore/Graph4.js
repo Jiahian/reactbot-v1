@@ -20,8 +20,8 @@ var options = {
   },
   physics: {
     hierarchicalRepulsion: {
-      springLength: 200,
-      nodeDistance: 200,
+      springLength: 250,
+      nodeDistance: 350,
       springConstant: 0.5,
       damping: 0.2,
       //avoidOverlap: 0.9, //doesnt recognise?
@@ -40,7 +40,7 @@ var options = {
     },
     widthConstraint: {
       minimum: 25,
-      maximum: 150,
+      maximum: 160,
     },
     // function({ ctx, x, y }) {
     //   return {
@@ -111,18 +111,5 @@ class VisNetwork extends Component {
     );
   }
 }
-// <div ref={this.appRef}>
-//         <Graph
-//           graph={graph}
-//           options={options}
-//           events={events}
-//           style={style}
-//           getNetwork={this.getNetwork}
-//           getEdges={this.getEdges}
-//           getNodes={this.getNodes}
-//           onClick={this.props.onHandle}
-//           vis={(vis) => (this.vis = vis)}
-//         />
-//       </div>
-// <button onClick={this.props.onHandle}>increment</button>;
+
 export default VisNetwork;

@@ -207,7 +207,7 @@ class Chatbot extends Component {
             bottom: 0,
             right: 0,
             border: "1px solid light-grey",
-            backgroundColor: "rgba(255,255,255,0.5)",
+            backgroundColor: "rgba(200,200,200,0.75)",
           }}
         >
           <div

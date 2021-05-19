@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
-import IndustryTrackService from "../services/industryTrackService";
 
 class Header extends Component {
   render() {
+    const { currentUser, logout } = this.props;
     return (
       <nav className="bg-light">
         <div className="navbar navbar-expand-md navbar-light">
@@ -22,33 +22,63 @@ class Header extends Component {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
+          <div
+            className="collapse navbar-collapse justify-content-between "
+            id="navbarNav"
+          >
             <ul className="navbar-nav ml-4">
               <li className="nav-item mx-2">
-                <Link className="nav-link" to={"/explore"}>
+                <Link className="nav-link" to={"/"}>
                   Explore Careers
                 </Link>
               </li>
               <li className="nav-item mx-2">
                 <Link className="nav-link" to={"/shop"}>
-                  Courses
+                  Discover Courses
                 </Link>
               </li>
-              <li className="nav-item mx-2 ">
-                <Link className="nav-link" to={"/industry-track"}>
-                  Add
-                </Link>
-              </li>
-              <li className="nav-item mx-2">
-                <Link className="nav-link" to={"/career-pathway"}>
-                  Create Pathways
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/login"}>
-                  Login
-                </Link>
-              </li>
+              {currentUser && (
+                <Fragment>
+                  <li className="nav-item mx-2 ">
+                    <Link className="nav-link" to={"/industry-track"}>
+                      Add Careers
+                    </Link>
+                  </li>
+                  <li className="nav-item mx-2">
+                    <Link className="nav-link" to={"/career-pathway"}>
+                      Create Pathways
+                    </Link>
+                  </li>
+                  <li className="nav-item mx-2">
+                    <Link className="nav-link" to={"/category"}>
+                      Add Courses
+                    </Link>
+                  </li>
+                </Fragment>
+              )}
+            </ul>
+            <ul className="navbar-nav align-items-center">
+              {!currentUser && (
+                <Fragment>
+                  <li className="nav-item mx-2">
+                    <Link className="btn btn-outline-primary" to={"/login"}>
+                      Log in
+                    </Link>
+                  </li>
+                  <li className="nav-item mx-2">
+                    <Link className="btn btn-primary" to={"/register"}>
+                      Sign up
+                    </Link>
+                  </li>
+                </Fragment>
+              )}
+              {currentUser && (
+                <li className="nav-item mx-2">
+                  <Link className="nav-link" to={"/"} onClick={logout}>
+                    Log out
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>

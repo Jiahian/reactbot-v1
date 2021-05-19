@@ -31,7 +31,7 @@ class Explore extends Component {
     IndustryTrackService.getAll()
       .then((res) => {
         this.setState({ industry: res.data });
-        console.log(res.data);
+        //console.log(res.data);
       })
       .catch((e) => {
         console.log(e);
@@ -42,7 +42,7 @@ class Explore extends Component {
     PathwayService.getAll()
       .then((res) => {
         this.setState({ track: res.data });
-        console.log(res.data);
+        //console.log(res.data);
       })
       .catch((e) => {
         console.log(e);
@@ -53,7 +53,7 @@ class Explore extends Component {
     CareerService.getCareer(careerID)
       .then((res) => {
         this.setState({ career: res.data });
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((e) => {
         console.log(e);
@@ -61,10 +61,6 @@ class Explore extends Component {
   };
 
   handleEvents = {
-    // select: function (event) {
-    //   var { nodes, edges } = event;
-    //   console.log("node:", nodes, "edge:", edges);
-    // },
     selectNode: (event) => {
       let { nodes } = event;
       console.log(nodes[0]);
@@ -83,29 +79,11 @@ class Explore extends Component {
 
     const filteredIndustry = industry.filter(
       (i) => i._id === selectedIndustryID
-    );
-
-    console.log(this.state);
-
+    );    
     const filteredTrack = track.filter((t) => t._id === selectedTrackID);
-    //console.log("filtered tracks", filteredTrack);
-
     const filteredNode = filteredTrack.map((t) => t.nodes);
-    //console.log("nodes: ", filteredNode);
-
     const filteredEdge = filteredTrack.map((t) => t.edges);
-    //console.log("edges: ", filteredEdge);
 
-    // const filteredNodes = this.state.graph.nodes.filter(
-    //   (n) => n.group._id === id
-    // );
-
-    //console.log(filteredNodes);
-
-    // const filtered = {
-    //   nodes: [...filteredNodes],
-    //   edges: [...this.state.graph.edges],
-    // };
 
     return (
       <React.Fragment>
@@ -119,7 +97,10 @@ class Explore extends Component {
                   required
                   value={selectedIndustryID}
                   onChange={(e) =>
-                    this.setState({ selectedIndustryID: e.target.value })
+                    this.setState({
+                      selectedIndustryID: e.target.value,
+                      career: [],
+                    })
                   }
                 >
                   <option defaultValue>Industry...</option>
@@ -144,10 +125,13 @@ class Explore extends Component {
                   required
                   value={selectedTrackID}
                   onChange={(e) => {
-                    this.setState({ selectedTrackID: e.target.value });
+                    this.setState({
+                      selectedTrackID: e.target.value,
+                      career: [],
+                    });
                   }}
                 >
-                  <option>Track...</option>
+                  <option value="">Track...</option>
                   {filteredIndustry &&
                     filteredIndustry.map((d) =>
                       d.tracks.map((t) => (
@@ -166,7 +150,24 @@ class Explore extends Component {
                   onEvent={this.handleEvents}
                 />
               ) : (
-                ""
+                <div
+                  className="p-3 pt-4"
+                  style={{
+                    height: "80vh",
+                    width: "100%",
+                    border: "1px black solid",
+                    margin: "0 10px 10px 0",
+                    textAlign: "center",
+                  }}
+                >
+                  <p className="font-italic font-weight-light">
+                    No Career Pathway is created in this Industry and Track...
+                  </p>
+                  <br></br>
+                  <p className="font-italic font-weight-light">
+                    Please inform admin user to create new career pathways
+                  </p>
+                </div>
               )
             ) : (
               <div

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import IndustryTrackService from "../../services/industryTrackService";
 import CareerService from "../../services/careerService";
 import { Link } from "react-router-dom";
@@ -33,7 +33,7 @@ class IndustryTrack extends Component {
   };
 
   retrieveCareer = (trackID) => {
-    CareerService.getAll(trackID)
+    CareerService.getAllbyTrackID(trackID)
       .then((res) => {
         this.setState({ career: res.data });
         console.log(res.data);
@@ -49,6 +49,8 @@ class IndustryTrack extends Component {
       selectedIndustry: industry,
       selectedTrack: "",
       currentIndustryIndex: index,
+      currentTrackIndex: -1,
+      career: [],
     });
   };
 
@@ -95,31 +97,39 @@ class IndustryTrack extends Component {
   render() {
     const {
       industry,
-      //track,
       career,
       selectedIndustry,
       selectedTrack,
       currentIndustryIndex,
       currentTrackIndex,
     } = this.state;
-    //console.log(track);
 
     const filteredIndustry = industry.filter(
       (i, index) => index === currentIndustryIndex
     );
 
-    // /console.log(this.state);
-    console.log(filteredIndustry);
+    //console.log(this.state);
+    //console.log(filteredIndustry);
     return (
       <div
         className="mx-auto my-4 px-0 row industry-track"
         style={{ maxWidth: "1600px" }}
       >
-        <div className="col-4">
-          <h1>Industry</h1>
-          <p className="text-secondary my-2">
-            Please select on an industry to see tracks or add new industry.
-          </p>
+        <div className="col-lg-4 col-md-6 col-sm-12 mb-4">
+          <div className="d-flex flex-nowrap align-items-center mb-2">
+            <h1>Industry</h1>
+            <span
+              className="text-secondary ml-3"
+              data-toggle="tooltip"
+              data-placement="bottom"
+              title=" Please select on an industry to see tracks or add new industry."
+            >
+              <i
+                className="fas fa-info-circle"
+                style={{ fontSize: "1.5rem" }}
+              ></i>
+            </span>
+          </div>
           <ul className="list-group">
             {industry &&
               industry.map((d, index) => (
@@ -147,7 +157,6 @@ class IndustryTrack extends Component {
                 </li>
               ))}
           </ul>
-
           <Link
             to={{
               pathname: "/industry-track/add",
@@ -159,11 +168,21 @@ class IndustryTrack extends Component {
             + New Industry
           </Link>
         </div>
-        <div className="col-4">
-          <h1>Tracks</h1>
-          <p className="text-secondary my-2">
-            Please select on an industry to see tracks or add new tracks.
-          </p>
+        <div className="col-lg-4 col-md-6 col-sm-12 mb-4">
+          <div className="d-flex flex-nowrap align-items-center mb-2">
+            <h1>Tracks</h1>
+            <span
+              className="text-secondary ml-3"
+              data-toggle="tooltip"
+              data-placement="bottom"
+              title="Please select on an industry to see tracks or add new tracks."
+            >
+              <i
+                className="fas fa-info-circle"
+                style={{ fontSize: "1.5rem" }}
+              ></i>
+            </span>
+          </div>
           {filteredIndustry &&
             filteredIndustry.map((f) =>
               f.tracks.map((t, index) => (
@@ -191,22 +210,42 @@ class IndustryTrack extends Component {
                 </li>
               ))
             )}
-          <Link
-            to={{
-              pathname: `/industry-track/add/${selectedIndustry._id}`,
-              selectedIndustry: selectedIndustry,
-            }}
-            className="text-white my-2 btn btn-success"
-            role="button"
-          >
-            + New Track
-          </Link>
+          {currentIndustryIndex > -1 && (
+            <Fragment>
+              {filteredIndustry[0].tracks.length == 0 && (
+                <p className="text-secondary font-italic">
+                  {" "}
+                  No track created in this industry yet.
+                </p>
+              )}
+              <Link
+                to={{
+                  pathname: `/industry-track/add/${selectedIndustry._id}`,
+                  selectedIndustry: selectedIndustry,
+                }}
+                className="text-white my-2 btn btn-success"
+                role="button"
+              >
+                + New Track
+              </Link>
+            </Fragment>
+          )}
         </div>
-        <div className="col-4">
-          <h1>Careers</h1>
-          <p className="text-secondary my-2">
-            Please select on a track to see careers or add new careers.
-          </p>
+        <div className="col-lg-4 col-md-12 mb-4">
+          <div className="d-flex flex-nowrap align-items-center mb-2">
+            <h1>Careers</h1>
+            <span
+              className="text-secondary ml-3"
+              data-toggle="tooltip"
+              data-placement="bottom"
+              title="Please select on a track to see careers or add new careers."
+            >
+              <i
+                className="fas fa-info-circle"
+                style={{ fontSize: "1.5rem" }}
+              ></i>
+            </span>
+          </div>
           {career &&
             career.map((c, index) => (
               <li
@@ -229,16 +268,25 @@ class IndustryTrack extends Component {
                 </div>
               </li>
             ))}
-
-          <Link
-            to={{
-              pathname: "/career",
-            }}
-            className="text-white my-2 btn btn-success"
-            role="button"
-          >
-            + New Career
-          </Link>
+          {currentTrackIndex > -1 && (
+            <Fragment>
+              {career.length == 0 && (
+                <p className="text-secondary font-italic">
+                  {" "}
+                  No career created in this track yet.
+                </p>
+              )}
+              <Link
+                to={{
+                  pathname: "/career",
+                }}
+                className="text-white my-2 btn btn-success"
+                role="button"
+              >
+                + New Career
+              </Link>
+            </Fragment>
+          )}
         </div>
       </div>
     );

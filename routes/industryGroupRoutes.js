@@ -2,8 +2,6 @@ const router = require("express").Router();
 const mongoose = require("mongoose");
 let Industry = require("../models/Industry");
 let Track = require("../models/Track");
-let Career = require("../models/Career");
-//let IndustryGroup = require("../models/IndustryGroup");
 //first endpoint that get incoming http get request.
 
 //GET all industry and track
@@ -13,18 +11,10 @@ router.route("/").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-// const createIndustry = (industry) => {
-//   return Industry.create(industry).then((docIndustry) => {
-//     console.log("\n>> Created Industry:\n", docIndustry);
-//     return docIndustry;
-//   });
-// };
-
 //POST to create new Industry
 router.route("/add").post((req, res) => {
   const name = req.body.name;
-
-  //let industry = await createIndustry({name: IndustryName})
+  
   const newIndustry = new Industry({ name });
 
   newIndustry

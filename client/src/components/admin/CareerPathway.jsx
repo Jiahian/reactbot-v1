@@ -47,7 +47,7 @@ class CareerPathway extends Component {
     const filteredIndustry = industry.filter(
       (i) => i._id === selectedIndustryID
     );
-    console.log(this.state);
+    console.log(filteredIndustry);
 
     const filteredTrack = track.filter((t) => t._id === selectedTrackID);
     console.log("filtered tracks", filteredTrack);
@@ -62,19 +62,22 @@ class CareerPathway extends Component {
       <Fragment>
         <div className="container mx-auto my-4">
           <div className="d-flex flex-nowrap justify-content-between align-items-center">
-            <h1>Career</h1>
-            {selectedTrackID && (
-              <Link
-                to={{
-                  pathname: `/career-pathway/${selectedTrackID}`,
-                  selectedTrack: filteredTrack,
-                }}
-                className="btn btn-warning"
-                role="button"
-              >
-                Edit
-              </Link>
-            )}
+            <h1>Career Pathways</h1>
+            {selectedTrackID &&
+              filteredNode[0].length > 1 &&
+              filteredEdge[0].length > 1 && (
+                <Link
+                  to={{
+                    pathname: `/career-pathway/${selectedTrackID}`,
+                    selectedIndustryName: filteredIndustry[0].name,
+                    selectedTrack: filteredTrack,
+                  }}
+                  className="btn btn-warning"
+                  role="button"
+                >
+                  Edit
+                </Link>
+              )}
           </div>
           <form className="mt-3" style={{ marginBottom: "2rem" }}>
             <div className="form-group">
@@ -85,7 +88,10 @@ class CareerPathway extends Component {
                 required
                 value={selectedIndustryID}
                 onChange={(e) =>
-                  this.setState({ selectedIndustryID: e.target.value })
+                  this.setState({
+                    selectedIndustryID: e.target.value,
+                    selectedTrackID: "",
+                  })
                 }
               >
                 <option defaultValue>Please select an Industry</option>
@@ -108,7 +114,7 @@ class CareerPathway extends Component {
                   this.setState({ selectedTrackID: e.target.value })
                 }
               >
-                <option>Please select a Track</option>
+                <option value="">Please select a Track</option>
                 {filteredIndustry &&
                   filteredIndustry.map((d) =>
                     d.tracks.map((t) => (
@@ -124,7 +130,7 @@ class CareerPathway extends Component {
         {selectedIndustryID && selectedTrackID ? (
           filteredNode[0].length > 1 && filteredEdge[0].length > 1 ? (
             <div
-              className="d-flex flex-wrap mx-auto"
+              className="d-flex flex-wrap mx-auto px-3"
               style={{ maxWidth: "1600px" }}
             >
               <div className="col-md-4 p-0 pr-3">
@@ -190,7 +196,7 @@ class CareerPathway extends Component {
             <div className="container mx-auto">
               <p
                 className="
-              text-secondary"
+              text-secondary font-italic"
               >
                 No career pathway created in the selected industrty and track
                 yet.
@@ -198,6 +204,7 @@ class CareerPathway extends Component {
               <Link
                 to={{
                   pathname: `/career-pathway/${selectedTrackID}`,
+                  selectedIndustryName: filteredIndustry[0].name,
                   selectedTrack: filteredTrack,
                 }}
                 className="text-white my-2 btn btn-success"

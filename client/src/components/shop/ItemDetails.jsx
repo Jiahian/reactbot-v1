@@ -1,44 +1,100 @@
 import React, { Component, Fragment } from "react";
-import { courses } from "./../../data/courses";
+// import { courses } from "./../../data/courses";
 import { Link } from "react-router-dom";
 
 class ItemDetails extends Component {
   state = {
-    courses: courses.data,
+    course: [],
+    related: [],
   };
+  componentDidMount() {
+    let info = this.props.location.courseInfo;
+    if (info) {
+      this.setState({ course: info, related: info.relatedList });
+    }
+  }
 
   render() {
     const { id } = this.props.match.params;
-    //const { products } = this.state;
-    //const filteredProduct = products.filter((p) => p.id === id).map(p=>p);
+    const { course, related } = this.state;
+    console.log(this.state);
     return (
-      <div className="container mt-5 d-flex flex-wrap">
-        {this.state.courses
-          .filter((p) => p._id == id)
-          .map((p) => (
-            <Fragment>
-              <div className="col-9 col-md-12">
-                <h1 className="mb-4">{p.name}</h1>
-                <a className="text-secondary" href="#">
-                  Course Category: {p.category}
-                </a>
-                <h4 className="my-3">Introduction</h4>
-                <p className="text-justify">{p.description}</p>
-                <p className="text-primary font-weight-bold">{p.price}</p>
-              </div>
-              <div className="col-3">
-                <p className="text-secondary  ">Related careers:</p>
-                {p.tag.map((i) => (
-                  <Link
-                    to={`/shop/career/${i._id}`}
-                    class="badge alert-primary mr-2"
-                  >
-                    {i.label}
-                  </Link>
-                ))}
-              </div>
-            </Fragment>
-          ))}
+      <div className="container mt-5 d-flex flex-wrap course-detail">
+        <div className="col-9 col-md-12">
+          <h1 className="mb-4">{course.label}</h1>
+          <hr />
+          <h4 className="my-3">Introduction</h4>
+          <p className="text-justify" style={{ whiteSpace: "pre-line" }}>
+            {course.desc}
+          </p>
+          <h4 className="mb-3 mt-5">Details</h4>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <th scope="row">Date(s):</th>
+                <td>{course.date}</td>
+              </tr>
+              <tr>
+                <th scope="row">Time:</th>
+                <td>{course.time ? "To be advised" : course.time}</td>
+              </tr>
+              <tr>
+                <th scope="row">Venue:</th>
+                <td>{course.venue}</td>
+              </tr>
+              <tr>
+                <th scope="row">Registration Closing Date:</th>
+                <td>{course.regBy}</td>
+              </tr>
+              <tr>
+                <th scope="row">Course Trainer:</th>
+                <td>{course.trainer}</td>
+              </tr>
+              <tr>
+                <th scope="row">Course Fee:</th>
+                <td>S${course.fee}</td>
+              </tr>
+            </tbody>
+          </table>
+          <h4 className="mb-3 mt-5">Course Objective</h4>
+          <p className="text-justify" style={{ whiteSpace: "pre-line" }}>
+            {course.objective}
+          </p>
+          <h4 className="mb-3 mt-5">Course Outline</h4>
+          <div className="alert alert-primary" role="alert">
+            <p className="text-justify" style={{ whiteSpace: "pre-line" }}>
+              {course.outline}
+            </p>
+          </div>
+          <p className="mb-3 mt-4">
+            Sign up link:{" "}
+            <a
+              href={course.link}
+              target="_blank"
+              style={{ textDecoration: "underline" }}
+            >
+              {course.link}
+            </a>
+          </p>
+
+          <div className="mb-3 mt-4">
+            <p className="text-secondary">
+              Related careers:
+              <span style={{ fontSize: "1.3rem" }}>
+                {course.relatedList
+                  ? course.relatedList.map((i) => (
+                      <Link
+                        to={`/explore/detail/${i.id}`}
+                        class="badge alert-primary ml-2 mr-1"
+                      >
+                        {i.label}
+                      </Link>
+                    ))
+                  : "No related careers at the moment"}
+              </span>
+            </p>
+          </div>
+        </div>
       </div>
     );
   }

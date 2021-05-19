@@ -1,11 +1,14 @@
 import http from "./httpService";
 
 class CareerService {
+  getAll() {
+    return http.get(`/career`);
+  }
   getCareer(id) {
     return http.get(`/career/${id}`);
   }
 
-  getAll(id) {
+  getAllbyTrackID(id) {
     return http.get(`/career/all/${id}`);
   }
 

@@ -7,8 +7,6 @@ const CareerSchema = new Schema({
   cwf: String,
   tSkill: String,
   gSkill: String,
-  relatedCourse: { type: mongoose.Schema.Types.ObjectId, ref: "Related" },
-  //track: { type: mongoose.Schema.Types.ObjectId, ref: "Track" },
 });
 
 const Career = mongoose.model(

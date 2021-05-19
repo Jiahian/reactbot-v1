@@ -7,6 +7,7 @@ class CreatePathway extends Component {
     super(props);
     this.state = {
       trackID: "",
+      selectedIndustryName: this.props.location.selectedIndustryName,
       selectedTrack: this.props.location.selectedTrack, //will have data if in edit mode
       career: [],
       nodeList: [{ id: "", label: "", level: null }],
@@ -21,15 +22,19 @@ class CreatePathway extends Component {
     this.retrieveCareer(trackID);
 
     const { selectedTrack } = this.state;
-    if (selectedTrack)
+    if (
+      selectedTrack[0].nodes.length !== 0 ||
+      selectedTrack[0].edges.length !== 0
+    ) {
       this.setState({
         nodeList: selectedTrack[0].nodes,
         edgeList: selectedTrack[0].edges,
       });
+    }
   }
 
   retrieveCareer = (trackID) => {
-    CareerService.getAll(trackID)
+    CareerService.getAllbyTrackID(trackID)
       .then((res) => {
         this.setState({ career: res.data });
         console.log(res.data);
@@ -76,7 +81,7 @@ class CreatePathway extends Component {
   };
 
   // For nodeList
-  // handle input change fo nodeList
+  // handle input change for nodeList
   handleInputChange = (e, index, career) => {
     const { name, value } = e.target;
     const list = [...this.state.nodeList];
@@ -101,7 +106,6 @@ class CreatePathway extends Component {
 
   // handle click event of the Add button
   handleAddClick = () => {
-    //setInputList([...inputList, { firstName: "", lastName: "" }]);
     let list = [...this.state.nodeList, { id: "", label: "", level: null }];
     this.setState({ nodeList: list });
   };
@@ -127,14 +131,28 @@ class CreatePathway extends Component {
   };
 
   render() {
-    const { nodeList, edgeList, career, selectedTrack } = this.state;
+    const {
+      nodeList,
+      edgeList,
+      career,
+      selectedIndustryName,
+      selectedTrack,
+    } = this.state;
     console.log(this.state);
     return (
       <div className="container mx-auto my-4">
         <h1>Create Career Pathway</h1>
-        <h4 className="mt-4">Nodes</h4>
-        <p className="text-secondary">
-          Set each career node accordingly to its level in the graph.
+        <p>
+          <span className="font-weight-bold">Selected: </span>
+          {selectedIndustryName}
+          <i className="fas fa-chevron-right mx-2"></i>
+          {selectedTrack[0].name}
+        </p>
+        <hr></hr>
+        <h4 className="mt-4">Assign Career Nodes</h4>
+        <p className="text-secondary font-italic">
+          Set each career node accordingly to its level in the hierarchical
+          graph.
         </p>
         <div className="row flex-nowrap">
           <div className="col-5">
@@ -150,8 +168,8 @@ class CreatePathway extends Component {
             <p className="m-0">Add</p>
           </div>
         </div>
-        <div>{JSON.stringify(nodeList)}</div>
-        <div>{JSON.stringify(edgeList)}</div>
+        {/**<div>{JSON.stringify(nodeList)}</div>
+    <div>{JSON.stringify(edgeList)}</div>**/}
         {nodeList.map((x, i) => {
           return (
             <form className="mt-3 row flex-nowrap g-3 align-items-end">
@@ -206,9 +224,9 @@ class CreatePathway extends Component {
             </form>
           );
         })}
-        <h4 className="mt-5">Edges</h4>
-        <p className="text-secondary">
-          Set how each career node will join to the next career node in the
+        <h4 className="mt-5">Assign Connecting Edges</h4>
+        <p className="text-secondary font-italic">
+          Set which each career node will join to another career node in the
           graph.
         </p>
         <div className="row flex-nowrap">

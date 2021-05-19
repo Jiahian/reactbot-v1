@@ -1,43 +1,30 @@
 import React, { Component, Fragment } from "react";
-import IndustryTrackService from "../../services/industryTrackService";
 import { Link } from "react-router-dom";
+import CategoryService from "../../services/categoryService";
 
-class AddIndustryTrack extends Component {
+class AddCategory extends Component {
   state = {
-    selectedIndustry: "",
-    //selectedTrack: "",
-    id: null, //id of Industry
-    name: "",
+    selectedCat: "",
+    catId: null,
+    title: "",
     submitted: false,
   };
   componentDidMount() {
-    let selectedIndustry = this.props.location.selectedIndustry;
-    if (selectedIndustry)
-      this.setState({ selectedIndustry, id: selectedIndustry._id });
-    // let selectedTrack = this.props.location.selectedTrack;
-    // if (selectedTrack) this.setState({ selectedTrack });
+    let selectedCat = this.props.location.selectedCategory;
+    if (selectedCat) this.setState({ selectedCat, catId: selectedCat._id });
   }
 
-  onChangeName = (e) => {
-    this.setState({
-      name: e.target.value,
-    });
-  };
-
   saveForm = () => {
-    const { name, id } = this.state;
-    let data = {
-      name: name,
-    };
-
-    if (id) {
-      //console.log(id);
-      IndustryTrackService.createTrack(id, data)
+    const { catId, title } = this.state;
+    let data = { title: title };
+    if (catId) {
+      //save in Sub-cat
+      CategoryService.createSubCat(catId, data)
         .then((res) => {
           //console.log(res.data);
           this.setState({
-            id: id,
-            name: res.data.name,
+            catId: catId,
+            title: res.data.title,
             submitted: true,
           });
           //console.log(res.data);
@@ -46,15 +33,17 @@ class AddIndustryTrack extends Component {
           console.log(e);
         });
     } else {
-      IndustryTrackService.createIndustry(data)
+      //save in Cat
+      CategoryService.createCategory(data)
         .then((res) => {
+          //console.log(res.data);
           this.setState({
-            selectedIndustry: res.data,
-            id: res.data._id,
-            name: res.data.name,
+            selectedCat: res.data,
+            catId: res.data._id,
+            title: res.data.title,
             submitted: true,
           });
-          console.log(res.data);
+          //console.log(res.data);
         })
         .catch((e) => {
           console.log(e);
@@ -62,27 +51,25 @@ class AddIndustryTrack extends Component {
     }
   };
 
-  newIndustry = () => {
+  newCat = () => {
     this.setState({
-      selectedIndustry: "",
-      id: null,
-      name: "",
+      selectedCat: "",
+      catId: null,
+      title: "",
       submitted: false,
     });
   };
 
-  newTrack = () => {
+  newSubCat = () => {
     this.setState({
-      name: "",
+      title: "",
       submitted: false,
     });
   };
 
   render() {
-    //console.log(this.state);
-    //console.log(this.state.selectedIndustry);
-    //console.log(this.props.location.selectedIndustry);
-    const { selectedIndustry, selectedTrack, id, name, submitted } = this.state;
+    const { selectedCat, catId, title, submitted } = this.state;
+
     return (
       <div className="container mx-auto my-4">
         {submitted ? (
@@ -92,54 +79,51 @@ class AddIndustryTrack extends Component {
               {
                 <Link
                   to={{
-                    pathname: `/industry-track/add/`,
-                    selectedIndustry: "",
+                    pathname: `/cateogory/add/`,
+                    selectedCategory: "",
                   }}
-                  onClick={this.newIndustry}
-  
+                  onClick={this.newCat}
                   className="text-white my-2 mr-2 btn btn-success"
                 >
-                  + New Industry
+                  + New Category
                 </Link>
               }
 
               <Link
                 to={{
-                  pathname: `/industry-track/add/${selectedIndustry._id}`,
-                  selectedIndustry: selectedIndustry,
+                  pathname: `/category/add/${selectedCat._id}`,
+                  selectedCategory: selectedCat,
                 }}
-                onClick={this.newTrack}
+                onClick={this.newSubCat}
                 className="text-white my-2 btn btn-success"
               >
-                + New Track in{" "}
-                <span className="font-weight-bold">
-                  {selectedIndustry.name}
-                </span>{" "}
-                (Industry)
+                + New Sub-Category in{" "}
+                <span className="font-weight-bold">{selectedCat.title}</span>{" "}
+                (Category)
               </Link>
             </div>
           </div>
         ) : (
           <Fragment>
-            {selectedIndustry ? (
+            {selectedCat ? (
               <Fragment>
-                <h1>Add New Track</h1>
-                <form className="mt-3">
+                <h1>Add New Sub-Category</h1>
+                <form>
                   <div className="form-group">
                     <label htmlFor="formGroupName1">
-                      Industry: {selectedIndustry.name}
+                      Category: {selectedCat.title}
                     </label>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="formGroupName">Track Name</label>
+                    <label htmlFor="formGroupName">Sub-Category Title</label>
                     <input
                       type="text"
                       className="form-control"
                       id="formGroupName"
-                      value={name}
+                      value={title}
                       placeholder="..."
                       required
-                      onChange={this.onChangeName}
+                      onChange={(e) => this.setState({ title: e.target.value })}
                     />
                   </div>
                 </form>
@@ -152,18 +136,18 @@ class AddIndustryTrack extends Component {
               </Fragment>
             ) : (
               <Fragment>
-                <h1>Add New Industry</h1>
-                <form className="mt-3">
+                <h1>Add New Category</h1>
+                <form>
                   <div className="form-group">
-                    <label htmlFor="formGroupName">Industry Name</label>
+                    <label htmlFor="formGroupName">Category Title</label>
                     <input
                       type="text"
                       className="form-control"
                       id="formGroupName"
-                      value={name}
+                      value={title}
                       placeholder="..."
                       required
-                      onChange={this.onChangeName}
+                      onChange={(e) => this.setState({ title: e.target.value })}
                     />
                   </div>
                 </form>
@@ -182,4 +166,4 @@ class AddIndustryTrack extends Component {
   }
 }
 
-export default AddIndustryTrack;
+export default AddCategory;

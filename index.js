@@ -49,8 +49,15 @@ app.post("/api/df_text_query", async (req, res) => {
 const industryGroupRouter = require("./routes/industryGroupRoutes");
 const careerRouter = require("./routes/careerRoutes");
 const pathwayRouter = require("./routes/pathwayRoutes");
+const categoryRouter = require("./routes/categoryRoutes");
+const courseRouter = require("./routes/courseRoutes");
 
 app.use("/api/industry-track", industryGroupRouter);
 app.use("/api/career", careerRouter);
 app.use("/api/career-pathway", pathwayRouter);
-// app.use("/explore", exploreRouter);
+app.use("/api/category", categoryRouter);
+app.use("/api/course", courseRouter);
+
+//Authentication & Authorisation
+require("./routes/authRoutes")(app);
+require("./routes/userRoutes")(app);

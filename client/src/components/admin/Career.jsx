@@ -8,15 +8,18 @@ class Career extends Component {
     careerID: "", //id of career for Edit, Delete
     selectedIndustryName: "", //for Edit, Delete
     selectedTrackName: "", //for Edit, Delete
+
     industry: [],
     selectedIndustryID: "",
     selectedTrackID: "",
-    name: "",
+
+    name: "", //career
     desc: "",
     cwf: "",
     tSkill: "",
     gSkill: "",
-    trackID: "",
+    //trackID: "",
+
     submitted: false,
   };
 
@@ -122,7 +125,7 @@ class Career extends Component {
       });
   };
 
-  //delete Career in career and in track db
+  //update Career in career
   updateForm = () => {
     let data = {
       //trackID: this.state.trackID,
@@ -260,7 +263,7 @@ class Career extends Component {
                       this.setState({ selectedTrackID: e.target.value })
                     }
                   >
-                    <option>Please select a Track</option>
+                    <option value="">Please select a Track</option>
                     {filteredIndustry &&
                       filteredIndustry.map((d) =>
                         d.tracks.map((t) => (

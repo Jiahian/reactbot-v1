@@ -30,19 +30,33 @@ class ExploreDetail extends Component {
           <h1 className="my-4">{career.label}</h1>
           <hr />
           <h5>Job Description: </h5>
-          <p className="text-justify">{career.desc}</p>
-          <h5>Critical Work Function: </h5>
-
-          <p className="text-justify text-">{career.cwf}</p>
-
-          <div className="row">
+          <p className="text-justify" style={{ whiteSpace: "pre-line" }}>
+            {career.desc}
+          </p>
+          <h5 className="mt-4">Critical Work Function: </h5>
+          <div className="alert alert-primary">
+            <p style={{ whiteSpace: "pre-line" }}>
+              {career.cwf ? (
+                career.cwf
+              ) : (
+                <span className="text-secondary font-italic">
+                  No information available.
+                </span>
+              )}
+            </p>
+          </div>
+          <div className="row mt-4 mb-5">
             <div className="col-sm-6">
               <h5>Technical Skills & Competencies: </h5>
-              <p className="text-justify">{career.tSkill}</p>
+              <div className="alert alert-success">
+                <p style={{ whiteSpace: "pre-line" }}>{career.tSkill}</p>
+              </div>
             </div>
             <div className="col-sm-6">
               <h5>Generic Skills & Competencies: </h5>
-              <p className="text-justify">{career.gSkill}</p>
+              <div className="alert alert-warning">
+                <p style={{ whiteSpace: "pre-line" }}>{career.gSkill}</p>
+              </div>
             </div>
           </div>
         </div>

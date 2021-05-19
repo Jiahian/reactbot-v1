@@ -1,31 +1,45 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
-import { related } from "./../../data/relatedCourse";
-// import leftArrow from "../../../../asset/Images/left.svg";
-// import rightArrow from "../../../../asset/Images/right.svg";
+import CourseService from "../../services/courseService";
 
 class SideBar extends Component {
   state = {
-    allRelated: related.data,
+    course: [],
+  };
+
+  componentDidMount() {
+    this.retrieveCourse();
+  }
+
+  retrieveCourse = () => {
+    CourseService.getAll()
+      .then((res) => {
+        this.setState({ course: res.data });
+        //console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   render() {
-    //var sidebarClass = this.props.isOpen ? "sidebar open" : "sidebar";
     const { filteredCareer, industryID, trackID } = this.props;
-    console.log(filteredCareer);
+    //console.log(filteredCareer);
+    const { course } = this.state;
+    console.log(course);
+
     let relatedCourse = [];
-    // this.state.allRelated.forEach((c) => {
-    //   c.tag.forEach((p) => {
-    //     //console.log(p._id);
-    //     if (p._id === node._id) relatedCourse.push(c);
-    //   });
-    // });
-    //console.log(relatedCourse);
+
+    course.forEach((c) => {
+      c.relatedList.forEach((r) => {
+        if (r.id === filteredCareer._id) relatedCourse.push(c);
+      });
+    });
+    console.log(relatedCourse);
 
     return (
       <div className="col-lg-3 col-md-4 col-sm-12 alert alert-primary px-0 py-3">
-        {filteredCareer ? (
+        {filteredCareer.length === 0 ? (
           <div className="px-3">
             <p>Zoom and drag the graph to see all the career pathways.</p>
             <p>Click on any career node to view more info!</p>
@@ -81,11 +95,13 @@ class SideBar extends Component {
 
                 <div
                   id="collapseOne"
-                  className="collapse"
+                  className="collapse show"
                   aria-labelledby="headingOne"
                   data-parent="#accordion"
                 >
-                  <div className="card-body">{filteredCareer.desc}</div>
+                  <div className="card-body" style={{ whiteSpace: "pre-line" }}>
+                    {filteredCareer.desc}
+                  </div>
                   <span className="px-3 pb-2" style={{ float: "right" }}>
                     <Link to={`/explore/detail/${filteredCareer._id}`}>
                       See more
@@ -117,7 +133,15 @@ class SideBar extends Component {
                   aria-labelledby="headingTwo"
                   data-parent="#accordion"
                 >
-                  <div className="card-body">{filteredCareer.cwf}</div>
+                  <div className="card-body" style={{ whiteSpace: "pre-line" }}>
+                    {filteredCareer.cwf ? (
+                      filteredCareer.cwf
+                    ) : (
+                      <span className="text-secondary font-italic">
+                        No information available.
+                      </span>
+                    )}
+                  </div>
                   <span className="px-3 pb-2" style={{ float: "right" }}>
                     <Link to={`/explore/detail/${filteredCareer._id}`}>
                       See more
@@ -149,7 +173,9 @@ class SideBar extends Component {
                   aria-labelledby="headingThree"
                   data-parent="#accordion"
                 >
-                  <div className="card-body">{filteredCareer.tSkill}</div>
+                  <div className="card-body" style={{ whiteSpace: "pre-line" }}>
+                    {filteredCareer.tSkill}
+                  </div>
                   <span className="px-3 pb-2" style={{ float: "right" }}>
                     <Link to={`/explore/detail/${filteredCareer._id}`}>
                       See more
@@ -181,7 +207,9 @@ class SideBar extends Component {
                   aria-labelledby="headingFour"
                   data-parent="#accordion"
                 >
-                  <div className="card-body">{filteredCareer.gSkill}</div>
+                  <div className="card-body" style={{ whiteSpace: "pre-line" }}>
+                    {filteredCareer.gSkill}
+                  </div>
                   <span className="px-3 pb-2" style={{ float: "right" }}>
                     <Link to={`/explore/detail/${filteredCareer._id}`}>
                       See more
@@ -217,16 +245,19 @@ class SideBar extends Component {
                     {relatedCourse.length > 0 ? (
                       <div>
                         {relatedCourse.map((c) => (
-                          <a
-                            class="badge alert-primary mr-2"
-                            href={`/shop/${c._id}`}
+                          <Link
+                            className="badge alert-primary mr-2"
+                            to={{
+                              pathname: `/shop/${c._id}`,
+                              courseInfo: c,
+                            }}
                           >
-                            {c.name}
-                          </a>
+                            {c.label}
+                          </Link>
                         ))}
                       </div>
                     ) : (
-                      <p className="text-secondary">
+                      <p className="text-secondary font-italic">
                         No related courses available at this moment.{" "}
                       </p>
                     )}

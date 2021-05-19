@@ -1,19 +1,18 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
-import AuthService from "../../services/authService";
+import UserService from "../../services/userService";
+import authService from "../../services/authService";
 
-class LoginForm extends Component {
+class RegisterForm extends Component {
   state = {
-    account: {
-      username: "",
-      password: "",
-    },
+    account: { email: "", password: "", username: "" },
     errors: {},
   };
 
   schema = {
+    email: Joi.string().required().email({ minDomainAtoms: 2 }).label("Email"),
+    password: Joi.string().required().min(5).label("Password"),
     username: Joi.string().required().label("Username"),
-    password: Joi.string().required().label("Password"),
   };
 
   validate = () => {
@@ -44,7 +43,7 @@ class LoginForm extends Component {
     this.setState({ account, errors });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
 
     const errors = this.validate();
@@ -55,16 +54,24 @@ class LoginForm extends Component {
     console.log("submitted");
     this.doSubmit();
   };
+
   doSubmit = async () => {
     try {
       const { account } = this.state;
-      await AuthService.login(account.username, account.password);
-      const { state } = this.props.location;
-      window.location = state ? state.from.pathname : "/";
+      const response = await authService.register(
+        account.username,
+        account.email,
+        account.password
+      );
+      console.log(response);
+      //   auth.loginWithJwt(response.headers["x-auth-token"]);
+      alert("Signed up successful! Try logging in now.");
+      window.location = "/login";
     } catch (ex) {
-      if (ex.response && ex.response.data && ex.response.data.message) {
+      if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
         errors.username = ex.response.data.message;
+        console.log(ex.response.data);
         this.setState({ errors });
       }
     }
@@ -72,24 +79,23 @@ class LoginForm extends Component {
 
   render() {
     const { account, errors } = this.state;
-
     return (
       <div className="container my-4">
-        <h1>Login</h1>
+        <h1>Register</h1>
         <form className="my-3" onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">Email</label>
             <input
               autoFocus
-              value={account.username}
+              value={account.email}
               onChange={this.handleChange}
-              name="username"
-              id="username"
-              type="text"
+              name="email"
+              id="email"
+              type="email"
               className="validate form-control"
             />
-            {errors.username && (
-              <div className="alert alert-danger">{errors.username}</div>
+            {errors.email && (
+              <div className="alert alert-danger">{errors.email}</div>
             )}
           </div>
 
@@ -107,9 +113,23 @@ class LoginForm extends Component {
               <div className="alert alert-danger">{errors.password}</div>
             )}
           </div>
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              value={account.username}
+              onChange={this.handleChange}
+              name="username"
+              id="username"
+              type="text"
+              className="validate form-control"
+            />
+            {errors.username && (
+              <div className="alert alert-danger">{errors.username}</div>
+            )}
+          </div>
 
           <button disabled={this.validate()} className="btn btn-primary">
-            Login
+            Register
           </button>
         </form>
       </div>
@@ -117,4 +137,4 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm;
+export default RegisterForm;

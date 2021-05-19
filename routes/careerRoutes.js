@@ -3,6 +3,16 @@ const mongoose = require("mongoose");
 let Track = require("../models/Track");
 let Career = require("../models/Career");
 
+//GET all careers
+router.route("/").get((req, res) => {
+  Career.find()
+    .then((docCareer) => {
+      res.json(docCareer);
+      //console.log(docTrack.career);
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 //GET  career by careerID
 router.route("/:id").get((req, res) => {
   const careerID = req.params.id;

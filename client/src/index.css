@@ -87,13 +87,14 @@ a:hover {
   margin-top: 0 !important;
   border-radius: 0 0 1rem 1rem !important;
 }
-.card-price {
-  font-weight: medium;
-}
 .ellipsis {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.course-detail table tbody tr th {
+  background-color: #fff9f8;
 }
 
 /****** Product ******/
