@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
-import UserService from "../../services/userService";
+// import UserService from "../../services/userService";
 import authService from "../../services/authService";
 
 class RegisterForm extends Component {

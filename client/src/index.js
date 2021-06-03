@@ -3,7 +3,7 @@
 // import "bootstrap";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "bootstrap/dist/css/bootstrap.css";
-import $ from "jquery";
+// import $ from "jquery";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "./index.css";
 import React from "react";

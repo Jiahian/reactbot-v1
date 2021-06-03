@@ -23,10 +23,10 @@ class SideBar extends Component {
   };
 
   render() {
-    const { filteredCareer, industryID, trackID } = this.props;
+    const { filteredCareer } = this.props;
     //console.log(filteredCareer);
     const { course } = this.state;
-    console.log(course);
+    //console.log(course);
 
     let relatedCourse = [];
 

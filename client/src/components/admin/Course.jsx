@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import CategoryService from "../../services/categoryService";
 import CourseService from "../../services/courseService";
 import CareerService from "../../services/careerService";
-import { Link } from "react-router-dom";
 
 class Course extends Component {
   state = {

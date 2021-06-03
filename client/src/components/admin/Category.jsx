@@ -217,7 +217,7 @@ class Category extends Component {
           </ul>
           {currentCatIndex > -1 && (
             <Fragment>
-              {filteredCat[0].subcategory.length == 0 && (
+              {filteredCat[0].subcategory.length === 0 && (
                 <p className="text-secondary font-italic">
                   No sub-category created in this category yet.
                 </p>
@@ -277,7 +277,7 @@ class Category extends Component {
 
           {currentSubCatIndex > -1 && (
             <Fragment>
-              {course.length == 0 && (
+              {course.length === 0 && (
                 <p className="text-secondary font-italic">
                   {" "}
                   No course created in this sub-category yet.

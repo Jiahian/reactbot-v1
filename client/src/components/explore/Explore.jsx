@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-// import { ICTDataAI } from "../../data/ICTDataAI";
 import IndustryTrackService from "../../services/industryTrackService";
 import PathwayService from "../../services/pathwayService";
 import CareerService from "../../services/careerService";
 import SideBar from "./SideBar";
-import Dropdown from "./../common/Dropdown";
-// import { getGroups, getIndustry } from "../../data/fakeGroupService";
-import { Link } from "react-router-dom";
 import ExploreGraph from "./ExploreGraph";
 
 class Explore extends Component {
@@ -17,8 +13,6 @@ class Explore extends Component {
     career: [],
     selectedIndustryID: "",
     selectedTrackID: "",
-    //graph: ICTDataAI,
-    //subgroups: [], //in real world app, shd be initialize at the componentDidMount lifecycle hook
   };
 
   componentDidMount() {
@@ -69,21 +63,15 @@ class Explore extends Component {
   };
 
   render() {
-    const {
-      industry,
-      track,
-      career,
-      selectedIndustryID,
-      selectedTrackID,
-    } = this.state;
+    const { industry, track, career, selectedIndustryID, selectedTrackID } =
+      this.state;
 
     const filteredIndustry = industry.filter(
       (i) => i._id === selectedIndustryID
-    );    
+    );
     const filteredTrack = track.filter((t) => t._id === selectedTrackID);
     const filteredNode = filteredTrack.map((t) => t.nodes);
     const filteredEdge = filteredTrack.map((t) => t.edges);
-
 
     return (
       <React.Fragment>
@@ -202,8 +190,3 @@ class Explore extends Component {
 }
 
 export default Explore;
-//  <Dropdown buttonLabel="Industry > Tracks" items={industry} />;
-// <ExploreGraph
-//   graph={{ nodes: filteredNode[0], edges: filteredEdge[0] }}
-//   onEvent={this.handleEvents}
-// ></ExploreGraph>;

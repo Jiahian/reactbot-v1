@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Header from "./Header";
-import Landing from "./pages/Landing";
-import About from "./pages/About";
 import Explore from "./explore/Explore";
 import Shop from "./shop/Shop";
 import Chatbot from "./chatbot/Chatbot";
 import ItemDetails from "./shop/ItemDetails";
 import NotFound from "./pages/NotFound";
 import LoginForm from "./pages/LoginForm";
-import Compare from "./pages/Compare";
 import ExploreDetail from "./explore/ExploreDetails";
 import RelatedCareer from "./shop/RelatedCareer";
 import IndustryTrack from "./admin/IndustryTrack";
@@ -70,7 +67,6 @@ class App extends Component {
               />
               <Route path="/explore/:id?" component={Explore} />
               <Route path="/explore" component={Explore} />
-              <Route path="/compare" component={Compare} />
               <Route path="/not-found" component={NotFound} />
 
               <Redirect from="/" to="/explore" />

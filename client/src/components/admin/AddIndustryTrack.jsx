@@ -82,7 +82,7 @@ class AddIndustryTrack extends Component {
     //console.log(this.state);
     //console.log(this.state.selectedIndustry);
     //console.log(this.props.location.selectedIndustry);
-    const { selectedIndustry, selectedTrack, id, name, submitted } = this.state;
+    const { selectedIndustry, name, submitted } = this.state;
     return (
       <div className="container mx-auto my-4">
         {submitted ? (
@@ -96,7 +96,6 @@ class AddIndustryTrack extends Component {
                     selectedIndustry: "",
                   }}
                   onClick={this.newIndustry}
-  
                   className="text-white my-2 mr-2 btn btn-success"
                 >
                   + New Industry

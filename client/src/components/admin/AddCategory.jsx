@@ -68,7 +68,7 @@ class AddCategory extends Component {
   };
 
   render() {
-    const { selectedCat, catId, title, submitted } = this.state;
+    const { selectedCat, title, submitted } = this.state;
 
     return (
       <div className="container mx-auto my-4">

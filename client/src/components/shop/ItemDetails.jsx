@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from "react";
-// import { courses } from "./../../data/courses";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class ItemDetails extends Component {
@@ -15,7 +14,7 @@ class ItemDetails extends Component {
   }
 
   render() {
-    const { id } = this.props.match.params;
+    //const { id } = this.props.match.params;
     const { course, related } = this.state;
     console.log(this.state);
     return (
@@ -71,6 +70,7 @@ class ItemDetails extends Component {
             <a
               href={course.link}
               target="_blank"
+              rrel="noreferrer"
               style={{ textDecoration: "underline" }}
             >
               {course.link}

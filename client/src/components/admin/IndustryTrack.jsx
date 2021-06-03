@@ -212,7 +212,7 @@ class IndustryTrack extends Component {
             )}
           {currentIndustryIndex > -1 && (
             <Fragment>
-              {filteredIndustry[0].tracks.length == 0 && (
+              {filteredIndustry[0].tracks.length === 0 && (
                 <p className="text-secondary font-italic">
                   {" "}
                   No track created in this industry yet.
@@ -270,7 +270,7 @@ class IndustryTrack extends Component {
             ))}
           {currentTrackIndex > -1 && (
             <Fragment>
-              {career.length == 0 && (
+              {career.length === 0 && (
                 <p className="text-secondary font-italic">
                   {" "}
                   No career created in this track yet.
